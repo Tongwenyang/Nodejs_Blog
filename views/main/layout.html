@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博客</title>
+    <link rel="stylesheet" href="/public/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="/public/css/main.css" type="text/css">
+    <script type="text/javascript" src="/public/js/jquery.js"></script>
+    <script type="text/javascript" src="/public/js/index.js"></script>
+</head>
+<body>
+
+<header>
+    <!--<div class="backing"><img src="/public/images/beatuy.png" alt="背景"></div>-->
+    <div class="logo"><img src="/public/images/logo.jpg" alt=""></div>
+</header>
+
+<nav id="nav">
+    <ul class="nav nav-tabs menu">
+        {% if category == "" %}
+            <li role="presentation" class="active"><a href="/">首页</a></li>
+        {% else %}
+            <li role="presentation"><a href="/">首页</a></li>
+        {% endif %}
+        {% for cate in categories%}
+            {% if category == cate.id %}
+                <li role="presentation" class="active"><a href="/?category={{cate.id.toString()}}" >{{cate.name}}</a>
+                </li>
+            {% else %}
+
+                <li role="presentation"><a href="/?category={{cate.id.toString()}}" >{{cate.name}}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>
+<main class="clear">
+    <div class="mainLeft col-md-7">
+            {% block content %}{%endblock%}
+    </div>
+
+
+    <div class="mainRight col-md-4">
+        {% if userInfo._id %}
+        <div class="rightBox" id="userInfo" >
+            <div class="title"><span style="margin:5px">用户信息</span></div>
+            <p><span class="colDark username">{{userInfo.username}}</span></p>
+            {% if userInfo.isAdmin %}
+            <p>
+                <span class="colDanger">你好，管理员！</span>
+                <a href="/admin">进入管理</a>
+            </p>
+            {% else %}
+            <p><span class="colDanger ">你好，欢迎光临我的博客! </span></p>
+
+            {% endif %}
+            <p><span class="colDark "><a href="javascript:;" id="logout" >退出</a></span></p>
+        </div>
+        {% else %}
+        <div class="rightBox" id="loginBox" >
+            <div class="title"><span>登录</span></div>
+            <div class="line">用户名：<input type="text" name="username" /></div>
+            <div class="line">密码：<input type="password" name="password"   /></div>
+            <div style="margin: 5px; text-align: center "><button class="btn btn-info">登录</button></div>
+            <p class="textRight">还没注册？<a href="javascript:;" class="colMint">马上注册</a></p>
+            <p class="colWarning textCenter"></p>
+
+        </div>
+        <div class="rightBox" id="registerBox" style="display: none">
+            <div class="title"><span>注册</span></div>
+            <div class="line"><span class="colDark">用户名：</span><input type="text" name="username" /></div>
+            <div class="line"><span class="colDark">密码：</span><input type="password" name="password" /></div>
+            <div class="line"><span class="colDark">确认：</span><input type="password" name="repassword" /></div>
+            <div style="margin: 5px; text-align: center " ><span class="colDark"></span><button class="btn btn-info">注册</button></div>
+            <p class="textRight">已有账号？<a href="javascript:;" class="colMint">马上登录</a></p>
+            <p class="colWarning textCenter"></p>
+        </div>
+        {% endif %}
+
+    </div>
+</main>
+
+
+</body>
+</html>
